@@ -235,7 +235,7 @@ export default {
     };
 
     onMounted(() => {
-      state.width = 200;
+      state.width = ctx.$el.clientWidth;
     });
     const touchStart = event => {
       // 开始触摸坐标
@@ -287,15 +287,15 @@ export default {
       }
       event.currentTarget.style.transitionDuration = "300ms";
       // 如果往左滑 < -state.width * state.ratio
-      if (state.moveX !== 0 && distance < -state.width * state.ratio) {
+      if (state.moveX !== 0 && distance < -state.width * props.ratio) {
         // 如果是最后一个滑动，则设置最大滑动距离
         pickNext();
         // 如果往右滑 > state.width * state.ratio
-      } else if (distance > state.width * state.ratio) {
+      } else if (distance > state.width * props.ratio) {
         // 如果不是第一个滑动
         pickPre();
       } else {
-        // 回只当前滚动距离
+        // 滚回当前滚动距离
         state.distance = -(state.currentIndex * state.width);
       }
       setTimeout(() => {
