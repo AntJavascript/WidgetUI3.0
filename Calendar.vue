@@ -171,8 +171,15 @@ export default {
       }
       isSevenDay(true);
       // isFull = true && 没有42条数据
-      if (state.isFull && state.daysUL.length < 6) {
-        const lastData = state.daysUL[state.daysUL.length - 1][6]; // 最后一条数据
+      if (props.isFull && state.daysUL.length < 6) {
+        let lastData = state.daysUL[state.daysUL.length - 1][6]; // 最后一条数据
+        if (!lastData && state.daysUL[state.daysUL.length - 1].length === 0) {
+          try {
+             lastData = state.daysUL[state.daysUL.length - 2][6];
+          } catch(err) {
+            console.log(err, "请检查数组是否越界")
+          }
+        }
         for (let j = lastData.getDate(); j < 7 + lastData.getDate(); j++) {
           state.days.push(
             new Date(
@@ -183,9 +190,16 @@ export default {
         isSevenDay();
       }
       // 如果 state.daysUL[0] 没有值
-      if (state.isFull && state.daysUL[0].length === 0) {
+      if (props.isFull && state.daysUL[0].length === 0) {
         state.daysUL.splice(0, 1);
-        const lastData = state.daysUL[state.daysUL.length - 1][6]; // 最后一条数据
+        let lastData = state.daysUL[state.daysUL.length - 1][6]; // 最后一条数据
+        if (!lastData && state.daysUL[state.daysUL.length - 1].length === 0) {
+          try {
+             lastData = state.daysUL[state.daysUL.length - 2][6];
+          } catch(err) {
+            console.log(err, "请检查数组是否越界")
+          }
+        }
         for (let j = lastData.getDate(); j < 7 + lastData.getDate(); j++) {
           state.days.push(
             new Date(
@@ -324,7 +338,7 @@ export default {
         firstWeek - 1
       );
       // 如果存在 ifFull 参数说明需要显示42天
-      if (state.isFull) {
+      if (props.isFull) {
         let prevMonth = 0;
         // 如果当前月份是1月
         if (month === 1) {
@@ -595,7 +609,7 @@ export default {
                   color: #999;
                 }
                 &.currentDay {
-                  // background: #f6f6f6;
+                  background: #f6f6f6;
                 }
                 &.selected {
                   color: #fff;
