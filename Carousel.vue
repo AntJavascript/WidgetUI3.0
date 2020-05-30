@@ -38,9 +38,13 @@ export default {
           direction: 'horizontal' // 水平方向 (vertical 垂直方向)
         };
       }
+    },
+    onSwiper:{
+      type: Function,
+      default:() =>{}
     }
   },
-  setup(props) {
+  setup(props, {emit}) {
     const { ctx } = getCurrentInstance();
     const state = reactive({
       itemWidth: 0, // item的宽度
@@ -106,7 +110,7 @@ export default {
            state.distance = -(state.currentIndex * props.options.height);
           }
       }
-      ctx.$emit("swiper", state.currentIndex);
+      emit("swiper", state.currentIndex);
     };
     onMounted(() => {
       state.itemWidth = ctx.$el.offsetWidth;
@@ -180,8 +184,8 @@ export default {
       // 如果是循环轮播，则是currentIndex + 1
       let resistance = 1; // 滑动阻力
       if (
-        (thisDistanceX > 0 && state.currentIndex === 0) ||
-        (thisDistanceX < 0 && state.currentIndex === state.itemCount - 1)
+        !props.options.loop && ((thisDistanceX > 0 && state.currentIndex === 0) ||
+        (thisDistanceX < 0 && state.currentIndex === state.itemCount - 1))
       ) {
         resistance = 0.2;
       }
@@ -227,8 +231,9 @@ export default {
         return;
       }
       firstChild.style.transitionDuration = "300ms";
-      // 往左滑 || 往下滑
-      if (state.thisDistanceX < 0 || state.thisDistanceY < 0) {
+      // 往左滑 || 往上滑
+      if ((state.thisDistanceX < 0 && props.options.direction === 'horizontal') || (state.thisDistanceY < 0 && props.options.direction === 'vertical')) {
+         let flag = false;
         if (state.thisDistanceX <= -(state.itemWidth / 3) || state.thisDistanceY <= -(props.options.height /3)) {
           // 当前index 必须小于item数量减1
           if (state.currentIndex < state.itemCount - 1) {
@@ -238,13 +243,15 @@ export default {
               state.currentIndex++;
             }
           }
-          ctx.$emit("swiper", state.currentIndex);
+          flag = true;
         }
         isLoop();
         // 如果是无限循环，则需要把索引变成0
+        let index = state.currentIndex;
         if (props.options.loop) {
           if (state.itemCount === state.currentIndex) {
             state.currentIndex = 0;
+            index = 0;
             setTimeout(() => {
               firstChild.style.transitionDuration = "0s";
                if (props.options.direction === 'horizontal') {
@@ -255,30 +262,41 @@ export default {
             }, 300);
           }
         }
-      } else {
+        // 触发父级事件
+        if(flag) {
+          emit('swiper', index)
+        }
+      } else if((state.thisDistanceX > 0 && props.options.direction === 'horizontal') || (state.thisDistanceY > 0 && props.options.direction === 'vertical')){
         // 往右滑 || 往上滑
-        if (state.thisDistance >= state.itemWidth / 3 || state.thisDistanceY <= props.options.height / 3) {
+        let flag = false;
+        if (state.thisDistanceX >= state.itemWidth / 3 || state.thisDistanceY >= props.options.height / 3) {
+          
           // 当前index 必须小于item数量减1
           state.currentIndex--;
           if (!props.options.loop && state.currentIndex <= 0) {
             state.currentIndex = 0;
           }
-          ctx.$emit("swiper", state.currentIndex);
+          flag = true;
         }
         isLoop();
         // 如果是无限循环，则需要把索引变成最后一个
+        let index = state.currentIndex;
         if (props.options.loop) {
           if (state.currentIndex < 0) {
-            ctx.$emit("swiper", state.currentIndex - 1);
+            state.currentIndex = index = state.itemCount - 1;
             setTimeout(() => {
               firstChild.style.transitionDuration = "0s";
               if (props.options.direction === 'horizontal') {
-                 state.distance = -(state.itemWidth * state.currentIndex);
+                 state.distance = -(state.itemWidth * state.itemCount - 1);
               } else if (props.options.direction === 'vertical') {
-                state.distance = -(state.itemWidth * state.currentIndex);
+                state.distance = -(props.options.height * state.itemCount - 1);
               }
             }, 300);
           }
+        }
+        // 触发父级事件
+        if(flag) {
+          emit('swiper', index)
         }
       }
       state.start.X = 0;
