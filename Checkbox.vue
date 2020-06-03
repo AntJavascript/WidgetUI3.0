@@ -102,6 +102,9 @@ export default {
         text-overflow: ellipsis;
         padding-left: 0.4rem;
         word-break:break-all;
+        &.disable {
+          color:#afaeae;
+        }
         &::after {
           transform: scaleY(0.5);
           height: 1px;
