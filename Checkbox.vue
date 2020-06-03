@@ -1,11 +1,11 @@
 <template>
   <div class="wt-checkbox">
     <ul>
-      <li v-for="(item, index) in dataSource" :key="index" @click="handle(item, index)">
-        <p :class="{'icon-check acitive': find(item), 'disable': item.disable}"></p>
-        <div class="item-inner">
+      <li v-for="(item, index) in dataSource" :key="index" @click="handle(item, index)" :style="{flexDirection: reverse ? 'row-reverse' : 'row'}">
+        <p :class="{'icon-check acitive': find(item), 'disable': item.disable}" :style="{backgroundColor:find(item) ? selectedColor : '',borderColor:find(item) ? selectedColor : ''}"></p>
+        <div class="item-inner" :class="{'disable': item.disable}">
           <div class="title">{{item.title}}</div>
-          <div class="subtitle">{{item.desc}}</div>
+          <div class="subtitle" v-if="item.desc">{{item.desc}}</div>
         </div>
       </li>
     </ul>
@@ -20,6 +20,18 @@ export default {
       type: Array,
       default: function() {
         return [];
+      }
+    },
+    reverse: {
+      type: Boolean,
+      default: function() {
+        return false;
+      }
+    },
+    selectedColor: {
+      type: Boolean,
+      default: function() {
+        return false;
       }
     }
   },
@@ -89,6 +101,7 @@ export default {
         // padding-right: 2rem;
         text-overflow: ellipsis;
         padding-left: 0.4rem;
+        word-break:break-all;
         &::after {
           transform: scaleY(0.5);
           height: 1px;
