@@ -1,8 +1,16 @@
 <template>
   <div class="wt-checkbox">
     <ul>
-      <li v-for="(item, index) in dataSource" :key="index" @click="handle(item, index)" :style="{flexDirection: reverse ? 'row-reverse' : 'row'}">
-        <p :class="{'icon-check acitive': find(item), 'disable': item.disable}" :style="{backgroundColor:find(item) ? selectedColor : '',borderColor:find(item) ? selectedColor : ''}"></p>
+      <li
+        v-for="(item, index) in dataSource"
+        :key="index"
+        @click="handle(item, index)"
+        :style="{flexDirection: reverse ? 'row-reverse' : 'row'}"
+      >
+        <p
+          :class="{'icon-check acitive': find(item), 'disable': item.disable}"
+          :style="{backgroundColor:find(item) ? selectedColor : '',borderColor:find(item) ? selectedColor : ''}"
+        ></p>
         <div class="item-inner" :class="{'disable': item.disable}">
           <div class="title">{{item.title}}</div>
           <div class="subtitle" v-if="item.desc">{{item.desc}}</div>
@@ -12,7 +20,7 @@
   </div>
 </template>
 <script>
-import {reactive} from 'vue'
+import { reactive, onMounted } from "vue";
 
 export default {
   props: {
@@ -29,15 +37,16 @@ export default {
       }
     },
     selectedColor: {
-      type: Boolean,
+      type: String,
       default: function() {
-        return false;
+        return "#1bb5f1";
       }
     }
   },
-  setup(props, {emit}) {
-    const selected = reactive([])
-    const handle = item =>{
+  setup(props, { emit }) {
+    const selected = reactive([]);
+    // 点击事件
+    const handle = item => {
       if (item.disable) {
         return;
       }
@@ -47,9 +56,10 @@ export default {
         const i = find(item, true).index;
         selected.splice(i, 1);
       }
-      emit("handle", selected);
-    }
-    const find =(item, remove) =>{
+      emit("change", selected);
+    };
+    // 过滤选中
+    const find = (item, remove) => {
       let flag = false;
       if (remove) {
         var index;
@@ -68,12 +78,19 @@ export default {
       } else {
         return flag;
       }
-    }
+    };
+    onMounted(() => {
+      props.dataSource.forEach(item => {
+        if (item.selected) {
+          selected.push(item);
+        }
+      });
+    })
     return {
       selected,
       handle,
       find
-    }
+    };
   }
 };
 </script>
@@ -101,9 +118,9 @@ export default {
         // padding-right: 2rem;
         text-overflow: ellipsis;
         padding-left: 0.4rem;
-        word-break:break-all;
+        word-break: break-all;
         &.disable {
-          color:#afaeae;
+          color: #afaeae;
         }
         &::after {
           transform: scaleY(0.5);

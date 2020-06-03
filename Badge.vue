@@ -2,7 +2,7 @@
   <div
     class="wt-badge"
     :class="type"
-    :style="{background: bgcolor, color: textcolor, padding: padding + 'rem', borderRadius: radius + 'rem'}"
+    :style="{background: bgcolor, color: color, padding: padding + 'rem', borderRadius: radius + 'rem'}"
   >{{title}}</div>
 </template>
 <script lang="ts">
