@@ -14,6 +14,7 @@
                 <div v-if="link != undefined" class="icon-right link"></div>
             </div>
         </div>
+        <slot name="bottom"></slot>
     </div>
 </template>
 <script>
