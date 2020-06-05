@@ -157,6 +157,22 @@ const onClick = index =>{
      }
     emit('change', props.dataSource[state.currentIndex], state.currentIndex);
 }
+// 获取当前位置以及值
+const getCurrentIndex =() =>{
+  return {
+    data:props.dataSource[state.currentIndex],
+    index:state.currentIndex
+  }
+}
+// 滚动到指定位置
+const scrollTo = (index) => {
+  if(isNaN(index) || index < 0 || index > props.dataSource.length) {
+     index = 0;
+  }
+  state.move.Y = 0;
+  state.distance = hisdistance = -index * (state.itemWidth * 2);
+  state.currentIndex = index;
+}
   return {
       state,
       touchStart,
