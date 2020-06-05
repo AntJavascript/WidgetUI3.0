@@ -59,6 +59,7 @@ export default {
       state.start.X = event.touches[0].clientX;
       state.start.Y = event.touches[0].clientY;
       state.startTime = new Date().getTime();
+      state.maxDistance = (state.itemWidth * 2) * (props.dataSource.length - 1);
     }
 const touchMove  = () => {
       event.preventDefault();
