@@ -123,6 +123,7 @@ export default {
           state.slots.push(ctx.$el.children[0].children[i]);
           state.itemCount++;
           // 垂直方向，需要设置高度
+          console.log(props.options.height)
           if (props.options.direction === 'vertical' && (props.options.height || state.itemWidth)) {
              elm.style.height = (props.options.height || state.itemWidth) + "px";
           }
@@ -326,7 +327,7 @@ export default {
     transition-timing-function: ease-out;
     transition-property: transform;
     &.vertical {
-      display: flex;
+      display: flow-root;
       flex-direction: column;
     }
     .carousel-item {
@@ -363,7 +364,7 @@ export default {
       background: #000;
       opacity: 0.4;
       &.active {
-        background: #40cfa0;
+        background: #fff;
         opacity: 1;
       }
     }
