@@ -123,7 +123,6 @@ export default {
           state.slots.push(ctx.$el.children[0].children[i]);
           state.itemCount++;
           // 垂直方向，需要设置高度
-          console.log(props.options.height)
           if (props.options.direction === 'vertical' && (props.options.height || state.itemWidth)) {
              elm.style.height = (props.options.height || state.itemWidth) + "px";
           }
@@ -168,7 +167,7 @@ export default {
       // 如果是横着滑动则阻止浏览器默认行为
       if (
         Math.abs(state.move.Y - state.start.Y) <
-        Math.abs(state.move.X - state.start.X)
+        Math.abs(state.move.X - state.start.X) || props.options.direction === 'vertical'
       ) {
         event.preventDefault();
         event.stopPropagation();
