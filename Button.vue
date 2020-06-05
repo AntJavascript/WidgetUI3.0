@@ -24,7 +24,7 @@ export default {
       }
     },
     radius: {
-      type: Number,
+      type: String,
       default: () => {
         return '0.2'
       }
@@ -32,13 +32,13 @@ export default {
     width: {
       type: String,
       default: () => {
-        return 0
+        return '0'
       }
     },
     height: {
       type: String,
       default: () => {
-        return 0
+        return '0'
       }
     },
     color: {
@@ -76,8 +76,8 @@ export default {
         background: props.bgcolor,
         color: props.color,
         borderRadius: props.radius + "rem",
-        width: props.width ? props.width + "rem" : '',
-        height: props.height ? props.height + "rem" : '2rem',
+        width: ~~props.width ? props.width + "rem" : '',
+        height: ~~props.height ? props.height + "rem" : '2rem',
         border: border
       };
     }
