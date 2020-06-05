@@ -77,7 +77,7 @@ export default {
         color: props.color,
         borderRadius: props.radius + "rem",
         width: props.width ? props.width + "rem" : '',
-        height: props.height ? props.height + "rem" : '2.2rem',
+        height: props.height ? props.height + "rem" : '2rem',
         border: border
       };
     }
@@ -102,6 +102,7 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  font-size:0.8rem;
   &.stroke {
     border: 1px solid #eee;
   }
