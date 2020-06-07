@@ -16,6 +16,7 @@ export default {
 </script>
 <style lang='less' rel='stylesheet/less' scoped>
 .wt-ink {
+  min-width: 2rem;
     &:active {
         background: rgba(0,0,0,0.1);
     }
