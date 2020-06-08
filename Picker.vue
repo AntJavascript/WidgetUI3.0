@@ -169,7 +169,7 @@ const scrollTo = (index) => {
   // 不能小于最小值
   if(isNaN(index) || index < 0 ) {
      index = 0;
-  } else if(index > props.dataSource.length) {
+  } else if(index >= props.dataSource.length) {
   // 最大值
     index = props.dataSource.length - 1
   }
