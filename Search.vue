@@ -21,6 +21,12 @@ export default {
       default: () => {
         return '搜索';
       }
+    },
+    disable: {
+      type: String,
+      default: () => {
+        return undefined;
+      }
     }
   },
   setup (props, {emit}) {
@@ -28,6 +34,7 @@ export default {
     const val = ref("")
     const isblur = ref(false)
     const handle =()=> {
+      if (props.disable !== undefined) return;
       isblur.value = true;
       ctx.$refs.search.focus();
     }
