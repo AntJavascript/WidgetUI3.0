@@ -41,7 +41,7 @@ props: {
     color: {
       type: String,
       default: () => {
-        return '1BB5F1';
+        return '#1BB5F1';
       }
     }
   },
