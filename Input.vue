@@ -17,7 +17,7 @@ export default {
       }
     },
     max: {
-      type: String | Number,
+      type: String || Number,
       default: () => {
         return '';
       }
