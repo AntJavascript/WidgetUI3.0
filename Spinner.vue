@@ -1,14 +1,5 @@
 <template>
-     <i class='wt-spinner icon-spinner' v-if="type=='1'" :style="{fontSize: size + 'rem',backgroundImage: bgcolor}"></i>
-     <i class='wt-spinner icon-spinner2' v-else-if="type=='2'" :style="{fontSize: size + 'rem',backgroundImage: bgcolor}"></i>
-     <i class='wt-spinner icon-spinner3' v-else-if="type=='3'" :style="{fontSize: size + 'rem',backgroundImage: bgcolor}"></i>
-     <i class='wt-spinner icon-spinner4' v-else-if="type=='4'" :style="{fontSize: size + 'rem',backgroundImage: bgcolor}"></i>
-     <i class='wt-spinner icon-spinner5' v-else-if="type=='5'" :style="{fontSize: size + 'rem',backgroundImage: bgcolor}"></i>
-     <i class='wt-spinner icon-spinner6' v-else-if="type=='6'" :style="{fontSize: size + 'rem',backgroundImage: bgcolor}"></i>
-     <i class='wt-spinner icon-spinner7' v-else-if="type=='7'" :style="{fontSize: size + 'rem',backgroundImage: bgcolor}"></i>
-     <i class='wt-spinner icon-spinner8' v-else-if="type=='8'" :style="{fontSize: size + 'rem',backgroundImage: bgcolor}"></i>
-     <i class='wt-spinner icon-spinner9' v-else-if="type=='9'" :style="{fontSize: size + 'rem',backgroundImage: bgcolor}"></i>
-     <i class='wt-spinner icon-spinner10' v-else-if="type=='10'" :style="{fontSize: size + 'rem',backgroundImage: bgcolor}"></i>
+     <i :class='["wt-spinner", "icon-spinner" + type]' :style="{fontSize: size + 'rem',backgroundImage: bgcolor}"></i>
 </template>
 <script>
 import { computed } from 'vue';
@@ -24,7 +15,7 @@ export default {
     type: {
       type: String,
       default: () => {
-        return '1';
+        return '';
       }
     },
     from: {
