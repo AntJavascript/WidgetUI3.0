@@ -40,7 +40,8 @@ export default {
     }
     const submit =(event) =>{
       event.preventDefault();
-      emit('submit', val);
+      event.stopPropagation();
+      emit('submit', val.value);
       return false;
     }
     // 清理输入内容
