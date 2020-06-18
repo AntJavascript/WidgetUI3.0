@@ -3,7 +3,7 @@
       <wt-row>
         <div
         :class="[clicked >= index ? checkedIcon + ' checked' : icon, type]"
-        v-for="(item, index) in ~~nubmer"
+        v-for="(item, index) in ~~number"
         @click="handle(item, index)"
         :key="index">
         </div>
@@ -19,7 +19,7 @@ export default {
   },
   name: 'wt-rate',
   props: {
-    nubmer: {
+    number: {
       type: String,
       default: () => {
         return '5';
