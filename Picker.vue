@@ -24,7 +24,7 @@ export default {
       default: () => {
         return 'text';
       }
-    }},
+    },
     format: {
       type: String,
       default: () => {
@@ -178,7 +178,7 @@ const scrollTo = (index) => {
     index = props.dataSource.length - 1
   }
   state.move.Y = 0;
-  state.distance = hisdistance = -index * (state.itemWidth * 2);
+  state.distance = state.hisdistance = -index * (state.itemWidth * 2);
   state.currentIndex = index;
 }
   return {
