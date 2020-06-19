@@ -1,6 +1,7 @@
 <template>
     <div class='wt-upload'>
-        <input type="file" :capture="capture" :accept="accept" @change="shoiceImg">
+        <input type="file" v-if="capture != undefined" :capture="capture" :accept="accept" @change="shoiceImg">
+        <input type="file" v-else :accept="accept"  @change="shoiceImg">
         <div class="placeholder">
             <i :class="icon"></i>
             <p>{{title}}</p>
@@ -26,7 +27,7 @@ export default {
     capture: {
       type: String,
       default: () => {
-        return '';
+        return undefined;
       }
     },
     accept: {

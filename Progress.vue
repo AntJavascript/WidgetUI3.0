@@ -7,11 +7,11 @@
             <stop offset="100%" :stop-color="endColor"></stop>
         </linearGradient>
       </defs>
-      <circle cx="100" cy="100" r="96" :stroke-width="stroke" :stroke="bgColor" fill="none"></circle>
+      <circle cx="100" cy="100" r="90" :stroke-width="stroke" :stroke="bgColor" fill="none"></circle>
       <circle cx="100"
       stroke-linecap="round"
       :style="{'display': display ? 'block' : 'none'}"
-      cy="100" r="96" :stroke-width="ActiveStroke" :stroke="url" fill="none"
+      cy="100" r="90" :stroke-width="ActiveStroke" :stroke="url" fill="none"
       transform="matrix(0,-1,1,0,0,200)"
       :stroke-dasharray = "setDasharray"
       >
@@ -40,7 +40,7 @@ export default {
     value: {
       type: String || Number,
       default: () => {
-        return 4
+        return 0
       }
     },
     showText: {
