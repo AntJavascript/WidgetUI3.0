@@ -1,4 +1,5 @@
 import {wtDom} from './utils';
+import { Promise } from 'q';
 /*
  * @params options {Object} 必须
 */
@@ -12,6 +13,9 @@ function Alert (params) {
   };
   var options = Object.assign(defaults, params);
   var Alert = wtDom.create('div');
+  Promise.resolve().then(() => {
+    Alert.className = 'modal-in';
+  })
   Alert.id = 'wt-Alert';
   // 如果title不为空
   if (options.title !== '') {
@@ -32,9 +36,16 @@ function Alert (params) {
     var btn = wtDom.create();
     btn.className = 'wt-Alert-btn';
     btn.innerText = item.text;
+    // 按钮点击
     btn.addEventListener('click', function () {
       wtDom.del(mask);
-      wtDom.del(Alert);
+      document.body.className = document.body.className.replace(' wt-stop-scroll', '')
+      Alert.className = 'modal-out';
+       Alert.addEventListener('transitionend', ()=> {
+         wtDom.del(Alert);
+         Alert = null;
+       })
+      
       typeof item.handle == 'function' && item.handle(index);
     });
     btns.appendChild(btn);
@@ -43,6 +54,14 @@ function Alert (params) {
   Alert.style.zIndex = options.zIndex + 1;
   // 添加Alert
   document.body.appendChild(Alert);
+  
+  // 阻止滑动
+  Alert.addEventListener('touchmove', ()=> {
+    if (!document.body.className.includes('wt-stop-scroll')) {
+      document.body.className = document.body.className + ' wt-stop-scroll'
+    }
+  })
+  
   // 遮罩层
   var mask = wtDom.create();
   mask.className = 'wt-alert-mask';
@@ -50,7 +69,12 @@ function Alert (params) {
   mask.addEventListener('click', function () {
     if (options.btns.length === 0 ) {
       wtDom.del(mask);
-      wtDom.del(Alert);
+      document.body.className = document.body.className.replace(' wt-stop-scroll', '')
+      Alert.className = 'modal-out';
+      Alert.addEventListener('transitionend', ()=> {
+         wtDom.del(Alert);
+         Alert = null;
+       })
     }
   });
   // 阻止滑动
