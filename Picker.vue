@@ -3,7 +3,7 @@
     <div class="picker isAndroid" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
         <div class="picker-wrapper" :style="{transform: 'translate3d(0px, '+ state.distance +'px, 0px)'}">
             <div class="picker-item" @click="onClick(index)" v-for="(item, index) in dataSource" :key="index" :class="{'active': state.currentIndex === index}">
-                {{ showFiled(item) }}
+                {{ showFiled(item) }}{{format}}
             </div>
         </div>
     </div>
@@ -23,6 +23,12 @@ export default {
       type: String,
       default: () => {
         return 'text';
+      }
+    }},
+    format: {
+      type: String,
+      default: () => {
+        return '';
       }
     }
   },
@@ -48,11 +54,7 @@ export default {
     state.itemWidth = ~~window.getComputedStyle(document.querySelector('html')).fontSize.replace('px', '');
     state.maxDistance = (state.itemWidth * 2) * (props.dataSource.length - 1);
     const  showFiled = item => {
-      if (props.filed !== '') {
-        return item[props.filed];
-      } else {
-        return item;
-      }
+      return item[props.filed] || item;
     }
    const  touchStart  = () => {
       // 触摸坐标
@@ -63,6 +65,7 @@ export default {
     }
 const touchMove  = () => {
       event.preventDefault();
+      ctx.$el.firstChild.children[0].style.transitionDuration = "0s";
       // 滑动时候的坐标
       state.move.X = event.touches[0].clientX;
       state.move.Y = event.touches[0].clientY;
@@ -76,6 +79,7 @@ const touchMove  = () => {
       }
     };
 const  touchEnd = () => {
+      ctx.$el.firstChild.children[0].style.transitionDuration = "300ms";
       const endTime = new Date().getTime()
       if (endTime - state.startTime > 300) {
         state.speed = 1;
@@ -184,7 +188,9 @@ const scrollTo = (index) => {
       touchEnd,
       rest,
       onClick,
-      showFiled
+      showFiled,
+      getCurrentIndex,
+      scrollTo
     }
   },
 };
