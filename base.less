@@ -1,15 +1,42 @@
-/* toast */
-#wt-toast{
+.wt-stop-scroll {
+  height:100vh;
+  overflow:hidden;
+}
+/* snack */
+#wt-snack{
     position: fixed;
     z-index: 1000;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,1);
     padding: 5px;
-    border-radius: 5px;
     color: #fff;
-    bottom: 0.5rem;
-    left: 50%;
-    transform: translate(-50%);
+    bottom: 0;
+    left: 0;
+    height: 40px;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 40px;
     font-size: 0.7rem;
+    white-wpace:nowrap;
+    overflow:hidden;
+    &.animate {
+      transition-property: transform;
+      transition-duration: 300ms;
+    }
+    &.top {
+      top:0;
+      transform: translate3d(0px, -50px, 0px);
+    }
+    &.bottom {
+      bottom:0;
+      transform: translate3d(0px, 50px, 0px);
+    }
+    i.error {
+      color: #fa5252;
+      font-size: 20px;
+      margin-right: 10px;
+    }
 }
 /* alert*/
 .wt-alert-mask {
@@ -27,12 +54,22 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0.815);
     box-shadow: 0 0 20px 0px #9b9b9b;
     box-sizing: border-box;
     padding: 20px;
     border-radius:3px;
     overflow: hidden;
+    &.modal-out {
+      opacity: 0;
+      transition-duration: 200ms;
+      transform: translate3d(-50%, -50%, 0px) scale(0.815);
+    }
+    &.modal-in {
+      opacity: 1;
+      transition-duration: 200ms;
+      transform: translate3d(-50%, -50%, 0px) scale(1);
+    }
     .title {
     height: 2rem;
     font-size: 0.8rem;
@@ -58,7 +95,7 @@
     font-size: 0.8rem;
     justify-content: flex-end;
     margin-top: 0.4rem;
-    .nvx-Alert-btn{
+    .wt-Alert-btn{
     padding: 5px 10px;
     &:active {
       background: #eee;
