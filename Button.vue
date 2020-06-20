@@ -76,8 +76,8 @@ export default {
         background: props.bgcolor,
         color: props.color,
         borderRadius: props.radius + "rem",
-        width: ~~props.width ? props.width + "rem" : '',
-        height: ~~props.height ? props.height + "rem" : '2rem',
+        width: props.width > 0 ? props.width + "rem" : '',
+        height: props.height > 0 ? props.height + "rem" : '2.2rem',
         border: border
       };
     }
@@ -102,7 +102,6 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-size:0.8rem;
   &.stroke {
     border: 1px solid #eee;
   }
@@ -134,18 +133,21 @@ export default {
     line-height: 2rem;
     font-size: 0.8rem;
     width: 50%;
+    border: 1px solid #eee;
   }
   &.small {
     height: 1.5rem;
     line-height: 1.5rem;
     font-size: 0.7rem;
     width: 30%;
+    border: 1px solid #eee;
   }
   &.large {
     height: 2.5rem;
     line-height: 2.5rem;
     font-size: 0.9rem;
     width: 100%;
+    border: 1px solid #eee;
   }
 }
 </style>
