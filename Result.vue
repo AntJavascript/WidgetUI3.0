@@ -1,12 +1,17 @@
 <template>
   <div class="wt-result" :style="{zIndex:zIndex}" @click="clickHandle">
-    <div class="image"><img :src="image" /></div>
+    <div class="image"><img :src="imgUrl" /></div>
     <div class="title">{{title}}</div>
     <div class="content">{{content}}</div>
   </div>
 </template>
 <script>
-import { getCurrentInstance, onMounted } from 'vue';
+import { getCurrentInstance, onMounted, computed } from 'vue';
+import img403 from './403.svg';
+import img404 from './404.svg';
+import img500 from './500.svg';
+import info from './info.svg';
+import warning from './warning.svg';
 
 export default {
   props: {
@@ -51,8 +56,34 @@ export default {
         event.preventDefault()
       });
     })
+    const imgUrl = computed(() => {
+      let url = '';
+      if (props.type) {
+        switch(props.type) {
+          case '403':
+            url = img403;
+            break;
+         case '404':
+            url = img404;
+            break;
+         case '500':
+            url = img500;
+            break;
+         case 'info':
+            url = info;
+            break;
+         case 'warning':
+            url = warning;
+            break;
+          default:
+            url = props.image;
+        }
+      }
+      return url;
+    })
     return {
-      clickHandle
+      clickHandle,
+      imgUrl
     }
   }
 }
@@ -70,6 +101,11 @@ export default {
   height:100%;
   background: #fff;
   position: fixed;
+  .image {
+    img {
+      max-width: 70%;
+    }
+  }
   .title {
     white-space: nowrap;
     font-size: 1rem;
