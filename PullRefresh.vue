@@ -148,6 +148,9 @@ const touchEnd = () => {
         } else {
           if (self.distance < -50) {
             self.distance = -50;
+            state.status = 'loadMoreing';
+            state.loadmoreText = '正在加载';
+            emit("load");
           } else {
             self.distance = 0;
           }
@@ -160,6 +163,7 @@ const touchEnd = () => {
     });
   }
 const scroll = () => {
+if(navigator.userAgent.includes("iPhone") || navigator.userAgent.includes("Android")) return;
  const screen  = ctx.$el.offsetHeight; // 可显示区域
       const totalHeight = ctx.$el.firstChild.offsetHeight; // 子元素总高度
   if (screen >= totalHeight ) {
