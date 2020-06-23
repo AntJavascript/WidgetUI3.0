@@ -1,6 +1,13 @@
 <template>
   <div class="wt-image" :class="centerClass">
-    <img ref="imgEl" :src="src" :class="[fit, coverClass]" />
+    <img ref="imgEl" 
+    :src="placeholder" 
+    :class="[fit, coverClass]"
+    @error="loadError"
+    :data-src="src"
+    v-if="lazyload"
+    />
+    <img ref="imgEl" :src="src" :class="[fit, coverClass]" @error="loadError" v-else />
   </div>
 </template>
 <script>
@@ -10,7 +17,7 @@ export default {
     fit: {
       type: String,
       default: () => {
-        return "";
+        return "contain";
       }
     },
     src: {
@@ -24,13 +31,41 @@ export default {
       default: () => {
         return undefined;
       }
+    },
+    errorImg: {
+      type: String,
+      default: () => {
+        return "/img/error-img.png";
+      }
+    },
+    placeholder: {
+      type: String,
+      default: () => {
+        return "/img/error-img.png";
+      }
+    },
+    lazyload: {
+      type: Boolean,
+      default: () => {
+        return true;
+      }
     }
   },
   setup(props) {
     const { ctx } = getCurrentInstance();
     const coverClass = ref("");
     const imgEl = ref(null);
-    const centerClass = computed(() => props.center != undefined ? 'center' : '')
+    const centerClass = computed(() => {
+      if (props.center != undefined) {
+        if (props.fit === 'cover') {
+          return 'cover-center';
+        } else {
+          return 'center';
+        }
+      } else {
+        return "";
+      }
+    })
     onMounted(() => {
       const img = new Image();
       let imgWidth = ''; // 图片真实宽度
@@ -54,11 +89,31 @@ export default {
         }
       };
       img.src = props.src;
+      
+      // 懒加载
+      if (props.lazyload) {
+        const callback = (entries) => {
+          entries.forEach(item => {
+            if (item.isIntersecting) {
+              item.target.src = item.target.dataset.src;
+              io.unobserve(item.target)
+            }
+          });
+        }
+        const io = new IntersectionObserver(callback)
+        io.observe(imgEl.value)
+      }
     });
+    
+    // 图片加载失败
+    const loadError = () => {
+      imgEl.value.src = props.errorImg;
+    }
     return {
       coverClass,
       imgEl,
-      centerClass
+      centerClass,
+      loadError
     };
   }
 };
