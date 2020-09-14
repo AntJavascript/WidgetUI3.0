@@ -104,13 +104,9 @@ const touchStart = event => {
         state.refreshText = '下拉可以刷新';
         state.refreshIcon = 'icon-down';
       }
-    } else if (ctx.$el.scrollTop >= state.maxScroll && state.start.Y !== 0 && (state.move.Y - state.start.Y) < 0) {
+    } else if (ctx.$el.scrollTop >= state.maxScroll && state.start.Y !== 0 && (state.move.Y - state.start.Y) < 0 && !state.isDone) {
        // 处于底部的时候向上滑动
       event.preventDefault();
-      if (state.isDone) {
-        state.distance = (state.move.Y - state.start.Y) * props.drag;
-        return;
-      }
       state.distance = (state.move.Y - state.start.Y) * props.drag;
       ctx.$nextTick(() => {
         if (Math.abs(state.distance) > 50) {
